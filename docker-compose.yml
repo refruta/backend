@@ -1,0 +1,31 @@
+version: '3'
+services:
+  mysqldb:
+    image: 'mysql:5.6'
+    container_name: mysqldb
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=yash
+      - MYSQL_PASSWORD=yash
+      - MYSQL_DATABASE=finaldb
+    ports:
+      - "3307:3306"
+  backendapp:
+    container_name: backendapp
+    ports: 
+      - "8080:8080"
+    build:
+        context: "./"
+        dockerfile: "Dockerfile"
+    depends_on:
+        - mysqldb  
+  frontend: 
+    container_name: frontend
+    build: 
+      context: "C:/Users/pc/Desktop/New folder/React/workspace/redux-crud-tutorial-master"
+      dockerfile: "Dockerfile"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "backendapp"    
